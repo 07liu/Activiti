@@ -78,7 +78,7 @@
                 <div class="col-sm-8">
                     <div class="input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="realityStartTime" th:value="${#dates.format(bizLeave.startTime, 'yyyy-MM-dd HH:mm')}" class="form-control" placeholder="yyyy-MM-dd HH:mm" type="text" required>
+                        <input name="realityStartTime" th:value="${#dates.format(bizLeave.startTime, 'yyyy-MM-dd HH:mm')}" class="form-control" placeholder="yyyy-MM-dd HH:mm" type="text" required readonly>
                     </div>
                 </div>
             </div>
