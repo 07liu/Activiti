@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.BizSoftwareMapper">
+    
+    <resultMap type="BizSoftware" id="BizSoftwareResult">
+        <result property="id"    column="id"    />
+        <result property="netType"    column="net_type"    />
+        <result property="softType"    column="soft_type"    />
+        <result property="softVersion"    column="soft_version"    />
+        <result property="processType"    column="process_type"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="reason"    column="reason"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBizSoftwareVo">
+        select id, net_type, soft_type, soft_version, process_type, instance_id, reason, create_by, create_time, update_by, update_time from biz_software
+    </sql>
+
+    <select id="selectBizSoftwareList" parameterType="BizSoftware" resultMap="BizSoftwareResult">
+        <include refid="selectBizSoftwareVo"/>
+        <where>  
+            <if test="netType != null  and netType != ''"> and net_type = #{netType}</if>
+            <if test="softType != null  and softType != ''"> and soft_type = #{softType}</if>
+            <if test="softVersion != null  and softVersion != ''"> and soft_version = #{softVersion}</if>
+            <if test="processType != null  and processType != ''"> and process_type = #{processType}</if>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizSoftwareById" parameterType="Long" resultMap="BizSoftwareResult">
+        <include refid="selectBizSoftwareVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBizSoftware" parameterType="BizSoftware" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_software
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="netType != null  and netType != ''">net_type,</if>
+            <if test="softType != null  and softType != ''">soft_type,</if>
+            <if test="softVersion != null  and softVersion != ''">soft_version,</if>
+            <if test="processType != null  and processType != ''">process_type,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="reason != null  and reason != ''">reason,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="netType != null  and netType != ''">#{netType},</if>
+            <if test="softType != null  and softType != ''">#{softType},</if>
+            <if test="softVersion != null  and softVersion != ''">#{softVersion},</if>
+            <if test="processType != null  and processType != ''">#{processType},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="reason != null  and reason != ''">#{reason},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizSoftware" parameterType="BizSoftware">
+        update biz_software
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="netType != null  and netType != ''">net_type = #{netType},</if>
+            <if test="softType != null  and softType != ''">soft_type = #{softType},</if>
+            <if test="softVersion != null  and softVersion != ''">soft_version = #{softVersion},</if>
+            <if test="processType != null  and processType != ''">process_type = #{processType},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+            <if test="reason != null  and reason != ''">reason = #{reason},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizSoftwareById" parameterType="Long">
+        delete from biz_software where id = #{id}
+    </delete>
+
+    <delete id="deleteBizSoftwareByIds" parameterType="String">
+        delete from biz_software where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
