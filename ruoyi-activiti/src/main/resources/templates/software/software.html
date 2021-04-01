@@ -1,52 +1,61 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('软件/网络申请列表')"/>
 </head>
 <body class="gray-bg">
 <div class="container-div">
     <div class="row">
-        <div class="col-sm-12 search-collapse">
-            <form id="formId">
+
+        <!--搜索框-->
+        <!--<div class="col-sm-12 search-collapse">-->
+            <!--<form id="formId">
                 <div class="select-list">
                     <ul>
-                        <!--<li>-->
-                            <!--<label>网络类型：</label>-->
-                            <!--<select name="netType" th:with="type=${@dict.getNetType('')}">-->
-                                <!--<option value="">所有</option>-->
-                                <!--<option th:each="dict : ${type}" th:text="${dict.dictLabel}"-->
-                                        <!--th:value="${dict.dictValue}"></option>-->
-                            <!--</select>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<label>软件类型：</label>-->
-                            <!--<select name="softType" th:with="type=${@dict.getType('')}">-->
-                                <!--<option value="">所有</option>-->
-                                <!--<option th:each="dict : ${type}" th:text="${dict.dictLabel}"-->
-                                        <!--th:value="${dict.dictValue}"></option>-->
-                            <!--</select>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<label>软件版本描述：</label>-->
-                            <!--<input type="text" name="softVersion"/>-->
-                        <!--</li>-->
                         <li>
-                            <p>业务类型：</p>
-                            <input type="text" name="processType">
-                            <!--<select name="processType" th:with="type=${@dict.getType('')}">-->
-                                <!--<option value="">所有</option>-->
-                                <!--<option th:each="dict : ${type}" th:text="${dict.dictLabel}"-->
-                                        <!--th:value="${dict.dictValue}"></option>-->
-                            <!--</select>-->
+                            <label>网络类型：</label>
+                            <select name="netType" th:with="type=${@dict.getType('biz_net_type')}">
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
                         </li>
-                        <!--<li>-->
-                            <!--<label>实例ID：</label>-->
-                            <!--<input type="text" name="instanceId"/>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<label>申请原因：</label>-->
-                            <!--<input type="text" name="reason"/>-->
-                        <!--</li>-->
+
+
+                        &lt;!&ndash;<label class="col-sm-3 control-label">网络类型：</label>&ndash;&gt;
+                        &lt;!&ndash;<div class="col-sm-8">&ndash;&gt;
+                        &lt;!&ndash;<select name="netType" class="form-control m-b" th:with="type=${@dict.getType('biz_net_type')}">&ndash;&gt;
+                        &lt;!&ndash;<option th:each="dict:${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>&ndash;&gt;
+                        &lt;!&ndash;</select>&ndash;&gt;
+                        &lt;!&ndash;&lt;!&ndash;<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>&ndash;&gt;&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+                        <li>
+                            <label>软件类型：</label>
+                            <select name="softType" th:with="type=${@dict.getType('biz_soft_type')}">
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                        th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        &lt;!&ndash;<li>&ndash;&gt;
+                        &lt;!&ndash;<label>软件版本描述：</label>&ndash;&gt;
+                        &lt;!&ndash;<input type="text" name="softVersion"/>&ndash;&gt;
+                        &lt;!&ndash;</li>&ndash;&gt;
+                        &lt;!&ndash;<li>&ndash;&gt;
+                        &lt;!&ndash;<p>业务类型：</p>&ndash;&gt;
+                        &lt;!&ndash;<input type="text" name="processType">&ndash;&gt;
+                        &lt;!&ndash;<select name="processType" th:with="type=${@dict.getType('')}">&ndash;&gt;
+                        &lt;!&ndash;<option value="">所有</option>&ndash;&gt;
+                        &lt;!&ndash;<option th:each="dict : ${type}" th:text="${dict.dictLabel}"&ndash;&gt;
+                        &lt;!&ndash;th:value="${dict.dictValue}"></option>&ndash;&gt;
+                        &lt;!&ndash;</select>&ndash;&gt;
+                        &lt;!&ndash;</li>&ndash;&gt;
+                        &lt;!&ndash;<li>&ndash;&gt;
+                        &lt;!&ndash;<label>实例ID：</label>&ndash;&gt;
+                        &lt;!&ndash;<input type="text" name="instanceId"/>&ndash;&gt;
+                        &lt;!&ndash;</li>&ndash;&gt;
+                        &lt;!&ndash;<li>&ndash;&gt;
+                        &lt;!&ndash;<label>申请原因：</label>&ndash;&gt;
+                        &lt;!&ndash;<input type="text" name="reason"/>&ndash;&gt;
+                        &lt;!&ndash;</li>&ndash;&gt;
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
                                     class="fa fa-search"></i>&nbsp;搜索</a>
@@ -55,8 +64,8 @@
                         </li>
                     </ul>
                 </div>
-            </form>
-        </div>
+            </form>-->
+        <!--</div>-->
 
         <div class="btn-group-sm" id="toolbar" role="group">
             <a class="btn btn-success" onclick="$.operate.add()">
@@ -66,7 +75,7 @@
                 <i class="fa fa-edit"></i> 修改
             </a>
             <!--<a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">-->
-                <!--<i class="fa fa-remove"></i> 删除-->
+            <!--<i class="fa fa-remove"></i> 删除-->
             <!--</a>-->
             <a class="btn btn-warning" onclick="$.table.exportExcel()">
                 <i class="fa fa-download"></i> 导出
@@ -78,11 +87,14 @@
     </div>
 </div>
 <th:block th:include="include :: footer"/>
+<th:block th:include="include :: select2-js"/>
+<script th:src="@{/js/activiti.js}"></script>
 <script th:inline="javascript">
     /* var editFlag = [[${@permission.hasPermi('activiti:software:edit')}]];
      var removeFlag = [[${@permission.hasPermi('activiti:software:remove')}]];*/
     var prefix = ctx + "software";
     var datas = [[${@dict.getType('biz_net_type')}]];
+    var currentUser = [[${currentUser}]];
 
 
     $(function () {
@@ -92,6 +104,9 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
+            detailUrl: prefix + "/edit/{id}",
+            // sortName: "createTime",
+            // sortOrder: "desc",
             modalName: "软件/网络申请",
             columns: [{
                 checkbox: true
@@ -126,20 +141,110 @@
                     title: '申请原因'
                 },
                 {
+                    field: 'createBy',
+                    title: '申请人'
+                },
+                {
+                    field: 'createTime',
+                    title: '创建时间'
+                },
+                {
+                    field: 'updateBy',
+                    title: '更新人'
+                },
+                {
+                    field: 'updateTime',
+                    title: '更新时间'
+                },
+                {
+                    field: 'taskName',
+                    title: '当前任务名称',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return '<span class="badge badge-primary">' + value + '</span>';
+                    }
+                },
+                {
                     title: '操作',
                     align: 'center',
-                    formatter: function (value, row, index) {
+                    formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" ' +
-                            'onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" ' +
-                            'onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        if (row.instanceId) {
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i> 表单数据</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="showHistoryDialog(\'' + row.instanceId + '\')"><i class="fa fa-list"></i> 审批历史</a> ');
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="showProcessImgDialog(\'' + row.instanceId + '\')"><i class="fa fa-image"></i> 进度查看</a> ');
+                            if (row.taskName.indexOf('已结束') === -1) {
+                                actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="cancelApply(\'' + row.instanceId + '\',\'' + row.createBy + '\')"><i class="fa fa-times"></i> 撤销</a> ');
+                                var suspendOrActive = row.suspendState === '2' ? '激活' : '挂起';
+                                var icon = row.suspendState === '2' ? 'fa fa-check' : 'fa fa-stop';
+                                actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="suspendOrActiveApply(\'' + row.instanceId + '\',\'' + row.createBy + '\',\'' + row.suspendState + '\')"><i class="' + icon + '"></i> ' + suspendOrActive + '</a> ');
+                            }
+                        } else {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="submitApply(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-user"></i> 提交申请</a> ');
+                            actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="editForm(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-edit"></i> 编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="removeForm(\'' + row.id + '\',\'' + row.createBy + '\')"><i class="fa fa-remove"></i> 删除</a>');
+                        }
                         return actions.join('');
                     }
                 }]
         };
         $.table.init(options);
     });
+
+
+    function submitApply(id, createBy) {
+        if (createBy !== currentUser.loginName) {
+            $.modal.alertWarning("不允许非创建人提交申请！");
+            return;
+        }
+        $.modal.confirm("确认要提交申请吗?", function () {
+            var url = prefix + "/submitApply";
+            var data = {"id": id};
+            $.operate.submit(url, "post", "json", data);
+        });
+    }
+
+    function editForm(id, createBy) {
+        if (createBy !== currentUser.loginName) {
+            $.modal.alertWarning("不允许非创建人编辑表单！");
+            return;
+        }
+        $.operate.edit(id);
+    }
+
+    function removeForm(id, createBy) {
+        if (createBy !== currentUser.loginName) {
+            $.modal.alertWarning("不允许非创建人删除表单！");
+            return;
+        }
+        $.operate.remove(id);
+    }
+
+    function cancelApply(instanceId, createBy) {
+        if (createBy !== currentUser.loginName) {
+            $.modal.alertWarning("不允许非创建人撤销申请！");
+            return;
+        }
+        $.modal.confirm("确认要撤销申请吗?", function () {
+            var url = ctx + "process/cancelApply";
+            var data = {"instanceId": instanceId};
+            $.operate.submit(url, "post", "json", data);
+        });
+    }
+
+    function suspendOrActiveApply(instanceId, createBy, suspendState) {
+        var suspendOrActive = suspendState === '2' ? '激活' : '挂起';
+        if (createBy !== currentUser.loginName) {
+            $.modal.alertWarning("不允许非创建人" + suspendOrActive + "申请！");
+            return;
+        }
+        $.modal.confirm("确认要" + suspendOrActive + "申请吗?", function () {
+            var url = ctx + "process/suspendOrActiveApply";
+            var data = {"instanceId": instanceId, "suspendState": suspendState};
+            $.operate.submit(url, "post", "json", data);
+        });
+    }
+
 </script>
 </body>
 </html>

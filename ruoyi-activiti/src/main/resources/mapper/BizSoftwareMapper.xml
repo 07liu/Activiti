@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.activiti.mapper.BizSoftwareMapper">
     
-    <resultMap type="BizSoftware" id="BizSoftwareResult">
+    <resultMap type="BizSoftwareVo" id="BizSoftwareResult">
         <result property="id"    column="id"    />
         <result property="netType"    column="net_type"    />
         <result property="softType"    column="soft_type"    />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, net_type, soft_type, soft_version, process_type, instance_id, reason, create_by, create_time, update_by, update_time from biz_software
     </sql>
 
-    <select id="selectBizSoftwareList" parameterType="BizSoftware" resultMap="BizSoftwareResult">
+    <select id="selectBizSoftwareList" parameterType="BizSoftwareVo" resultMap="BizSoftwareResult">
         <include refid="selectBizSoftwareVo"/>
         <where>  
             <if test="netType != null  and netType != ''"> and net_type = #{netType}</if>
@@ -31,6 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="processType != null  and processType != ''"> and process_type = #{processType}</if>
             <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
             <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+
         </where>
     </select>
     
@@ -39,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertBizSoftware" parameterType="BizSoftware" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertBizSoftware" parameterType="BizSoftwareVo" useGeneratedKeys="true" keyProperty="id">
         insert into biz_software
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="netType != null  and netType != ''">net_type,</if>
@@ -67,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateBizSoftware" parameterType="BizSoftware">
+    <update id="updateBizSoftware" parameterType="BizSoftwareVo">
         update biz_software
         <trim prefix="SET" suffixOverrides=",">
             <if test="netType != null  and netType != ''">net_type = #{netType},</if>

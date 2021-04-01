@@ -1,8 +1,11 @@
 package com.ruoyi.activiti.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.activiti.domain.BizSoftware;
 import com.ruoyi.activiti.domain.BizSoftwareVo;
+import org.activiti.engine.runtime.ProcessInstance;
 
 /**
  * 软件/网络申请Service接口
@@ -59,4 +62,22 @@ public interface IBizSoftwareService
      * @return 结果
      */
     public int deleteBizSoftwareById(Long id);
+
+
+    /**
+     * 启动流程
+     * @param entity
+     * @param applyUserId
+     * @return
+     */
+    ProcessInstance submitApply(BizSoftwareVo entity, String applyUserId, String key, Map<String, Object> variables);
+
+    /**
+     * 查询我的待办列表
+     * @param userId
+     * @return
+     */
+    List<BizSoftwareVo> findTodoTasks(BizSoftwareVo bizSoftware, String userId);
+
+    List<BizSoftwareVo> findDoneTasks(BizSoftwareVo bizLeaveVo, String userId);
 }

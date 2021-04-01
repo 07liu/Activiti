@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1617172770329" name="" targetNamespace="http://www.activiti.org/testm1617172770329" typeLanguage="http://www.w3.org/2001/XMLSchema">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:tns="http://www.activiti.org/testm1617172770329" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" expressionLanguage="http://www.w3.org/1999/XPath" id="m1617172770329" name="" targetNamespace="http://www.activiti.org/testm1617172770329" typeLanguage="http://www.w3.org/2001/XMLSchema">
   <process id="software" isClosed="false" isExecutable="true" name="软件/网络申请流程" processType="None">
-    <startEvent id="_2" name="StartEvent"/>
-    <userTask activiti:exclusive="true" id="_3" name="部门领导审批"/>
-    <userTask activiti:exclusive="true" id="_4" name="总经理审批"/>
-    <userTask activiti:exclusive="true" id="_5" name="管理员确认"/>
+    <startEvent activiti:initiator="applyUserId" id="startevent1" name="Start"/>
+    <userTask activiti:candidateGroups="deptLeader" activiti:exclusive="true" id="deptLeaderVerify" name="部门领导审批"/>
+    <userTask activiti:candidateGroups="hr" activiti:exclusive="true" id="hrVerify" name="人事审批"/>
+    <userTask activiti:candidateGroups="financial" activiti:exclusive="true" id="financialVerify" name="管理员确认"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_6" name="ExclusiveGateway"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="_7" name="ExclusiveGateway"/>
     <userTask activiti:exclusive="true" id="_8" name="调整申请"/>
-    <sequenceFlow id="_9" sourceRef="_2" targetRef="_3"/>
-    <sequenceFlow id="_10" sourceRef="_3" targetRef="_6"/>
-    <sequenceFlow id="_11" name="同意" sourceRef="_6" targetRef="_4">
+    <sequenceFlow id="_9" sourceRef="startevent1" targetRef="deptLeaderVerify"/>
+    <sequenceFlow id="_10" sourceRef="deptLeaderVerify" targetRef="_6"/>
+    <sequenceFlow id="_11" name="同意" sourceRef="_6" targetRef="hrVerify">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${deptLeaderApproved}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_12" sourceRef="_4" targetRef="_7"/>
-    <sequenceFlow id="_13" name="同意" sourceRef="_7" targetRef="_5">
+    <sequenceFlow id="_12" sourceRef="hrVerify" targetRef="_7"/>
+    <sequenceFlow id="_13" name="同意" sourceRef="_7" targetRef="financialVerify">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${hrApproved}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway gatewayDirection="Unspecified" id="_14" name="ExclusiveGateway"/>
-    <endEvent id="_15" name="EndEvent"/>
+    <endEvent id="endevent1" name="End"/>
     <sequenceFlow id="_16" name="不同意" sourceRef="_6" targetRef="_8">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!deptLeaderApproved}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_17" sourceRef="_8" targetRef="_14"/>
-    <sequenceFlow id="_18" name="结束流程" sourceRef="_14" targetRef="_15">
+    <sequenceFlow id="_18" name="结束流程" sourceRef="_14" targetRef="endevent1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!reApply}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_19" name="不同意" sourceRef="_7" targetRef="_8">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!hrApproval}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_20" sourceRef="_5" targetRef="_15"/>
-    <sequenceFlow id="_21" name="重新申请" sourceRef="_14" targetRef="_3">
+    <sequenceFlow id="_20" sourceRef="financialVerify" targetRef="endevent1"/>
+    <sequenceFlow id="_21" name="重新申请" sourceRef="_14" targetRef="deptLeaderVerify">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${reApply}]]></conditionExpression>
     </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram documentation="background=#3C3F41;count=1;horizontalcount=1;orientation=0;width=842.4;height=1195.2;imageableWidth=832.4;imageableHeight=1185.2;imageableX=5.0;imageableY=5.0" id="Diagram-_1" name="New Diagram">
     <bpmndi:BPMNPlane bpmnElement="software">
-      <bpmndi:BPMNShape bpmnElement="_2" id="Shape-_2">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="Shape-startevent1">
         <dc:Bounds height="32.0" width="32.0" x="20.0" y="175.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_3" id="Shape-_3">
+      <bpmndi:BPMNShape bpmnElement="deptLeaderVerify" id="Shape-deptLeaderVerify">
         <dc:Bounds height="55.0" width="85.0" x="135.0" y="170.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_4" id="Shape-_4">
+      <bpmndi:BPMNShape bpmnElement="hrVerify" id="Shape-hrVerify">
         <dc:Bounds height="55.0" width="85.0" x="370.0" y="170.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_5" id="Shape-_5">
+      <bpmndi:BPMNShape bpmnElement="financialVerify" id="Shape-financialVerify">
         <dc:Bounds height="55.0" width="85.0" x="595.0" y="165.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="55.0" width="85.0" x="0.0" y="0.0"/>
@@ -84,22 +84,24 @@
           <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_15" id="Shape-_15">
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="Shape-endevent1">
         <dc:Bounds height="32.0" width="32.0" x="610.0" y="385.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="32.0" width="32.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_13" id="BPMNEdge__13" sourceElement="_7" targetElement="_5">
-        <di:waypoint x="542.0" y="191.0"/>
-        <di:waypoint x="595.0" y="192.5"/>
+        <di:waypoint x="541.0" y="190.0"/>
+        <di:waypoint x="565.0" y="190.0"/>
+        <di:waypoint x="595.0" y="190.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="-67.0" width="-69.0" x="0.0" y="66.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_12" id="BPMNEdge__12" sourceElement="_4" targetElement="_7">
-        <di:waypoint x="455.0" y="197.5"/>
-        <di:waypoint x="510.0" y="191.0"/>
+        <di:waypoint x="455.0" y="195.0"/>
+        <di:waypoint x="485.0" y="195.0"/>
+        <di:waypoint x="514.0" y="195.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="0.0" y="0.0"/>
         </bpmndi:BPMNLabel>
