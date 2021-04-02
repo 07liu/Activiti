@@ -11,12 +11,16 @@ import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.bean.BeanUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.mapper.SysUserMapper;
 import org.activiti.editor.language.json.converter.util.CollectionUtils;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.impl.persistence.entity.TaskEntityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -49,6 +53,9 @@ public class BizSoftwareServiceImpl implements IBizSoftwareService {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    private HistoryService historyService;
 
 
     /**
@@ -251,8 +258,55 @@ public class BizSoftwareServiceImpl implements IBizSoftwareService {
     }
 
     @Override
-    public List<BizSoftwareVo> findDoneTasks(BizSoftwareVo bizLeaveVo, String userId) {
-        return null;
+    public List<BizSoftwareVo> findDoneTasks(BizSoftwareVo bizSoftware, String userId) {
+        // 手动分页
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        Page<BizSoftwareVo> list = new Page<>();
+
+        List<BizSoftwareVo> results = new ArrayList<>();
+        List<HistoricTaskInstance> hisList = processService.findDoneTasks(userId, bizSoftware.getProcessType());
+        // 根据流程的业务ID查询实体并关联
+        for (HistoricTaskInstance instance : hisList) {
+            String processInstanceId = instance.getProcessInstanceId();
+            // 条件过滤 1
+            if (StringUtils.isNotBlank(bizSoftware.getInstanceId()) && !bizSoftware.getInstanceId().equals(processInstanceId)) {
+                continue;
+            }
+            HistoricProcessInstance processInstance = historyService.createHistoricProcessInstanceQuery()
+                    .processInstanceId(processInstanceId)
+                    .singleResult();
+            String businessKey = processInstance.getBusinessKey();
+            BizSoftwareVo leave2 = bizSoftwareMapper.selectBizSoftwareById(new Long(businessKey));
+            BizSoftwareVo newLeave = new BizSoftwareVo();
+            BeanUtils.copyProperties(leave2, newLeave);
+            // 条件过滤 2
+            if (StringUtils.isNotBlank(bizSoftware.getProcessType()) && !bizSoftware.getProcessType().equals(leave2.getProcessType())) {
+                continue;
+            }
+            newLeave.setTaskId(instance.getId());
+            newLeave.setTaskName(instance.getName());
+            newLeave.setDoneTime(instance.getEndTime());
+            SysUser sysUser = userMapper.selectUserByLoginName(leave2.getCreateBy());
+            newLeave.setApplyUserName(sysUser.getUserName());
+            results.add(newLeave);
+        }
+
+        List<BizSoftwareVo> tempList;
+        if (pageNum != null && pageSize != null) {
+            int maxRow = (pageNum - 1) * pageSize + pageSize > results.size() ? results.size() : (pageNum - 1) * pageSize + pageSize;
+            tempList = results.subList((pageNum - 1) * pageSize, maxRow);
+            list.setTotal(results.size());
+            list.setPageNum(pageNum);
+            list.setPageSize(pageSize);
+        } else {
+            tempList = results;
+        }
+
+        list.addAll(tempList);
+
+        return list;
     }
 
 }

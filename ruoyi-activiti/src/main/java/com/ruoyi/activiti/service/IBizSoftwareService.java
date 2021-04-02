@@ -79,5 +79,5 @@ public interface IBizSoftwareService
      */
     List<BizSoftwareVo> findTodoTasks(BizSoftwareVo bizSoftware, String userId);
 
-    List<BizSoftwareVo> findDoneTasks(BizSoftwareVo bizLeaveVo, String userId);
+    List<BizSoftwareVo> findDoneTasks(BizSoftwareVo bizSoftware, String userId);
 }

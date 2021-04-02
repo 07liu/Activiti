@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ruoyi.activiti.domain.BizSoftwareVo;
 import com.ruoyi.activiti.service.IProcessService;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import org.activiti.engine.RuntimeService;
@@ -28,6 +29,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 软件/网络申请Controller
@@ -107,6 +109,8 @@ public class BizSoftwareController extends BaseController {
         if (SysUser.isAdmin(userId)) {
             return error("提交申请失败：不允许管理员提交申请！");
         }
+        bizSoftware.setCreateBy(ShiroUtils.getLoginName());
+        bizSoftware.setCreateTime(DateUtils.getNowDate());
         bizSoftware.setProcessType("software");
         return toAjax(bizSoftwareService.insertBizSoftware(bizSoftware));
     }
@@ -227,5 +231,34 @@ public class BizSoftwareController extends BaseController {
             bizSoftwareService.updateBizSoftware(bizSoftware);
         }
         return success("任务已完成");
+    }
+
+    /**
+     * 自动绑定页面字段
+     */
+    @ModelAttribute("preloadSoft")
+    public BizSoftwareVo getSoft(@RequestParam(value = "id", required = false) Long id, HttpSession session) {
+        if (id != null) {
+            return bizSoftwareService.selectBizSoftwareById(id);
+        }
+        return new BizSoftwareVo();
+    }
+
+    @GetMapping("/softwareDone")
+    public String doneView() {
+        return prefix + "/softwareDone";
+    }
+
+    /**
+     * 我的已办列表
+     * @param bizSoftware
+     * @return
+     */
+    @PostMapping("/taskDoneList")
+    @ResponseBody
+    public TableDataInfo taskDoneList(BizSoftwareVo bizSoftware) {
+        bizSoftware.setProcessType("software");
+        List<BizSoftwareVo> list = bizSoftwareService.findDoneTasks(bizSoftware, ShiroUtils.getLoginName());
+        return getDataTable(list);
     }
 }
