@@ -120,6 +120,8 @@ public class ProcessServiceImpl implements IProcessService {
                             value = sdf.parse(paramValue);
                         } else if (parameter[1].equals("COM")) {
                             comment = paramValue;
+                        } else if (parameter[1].equals("TP")) {
+                            value = paramValue;
                         }
                         variables.put(parameter[2], value);
                     } else {
@@ -132,6 +134,9 @@ public class ProcessServiceImpl implements IProcessService {
                 comment = agree ? "【同意】" + comment : "【拒绝】" + comment;
                 taskService.addComment(taskId, instanceId, comment);
             }
+
+
+
             // 被委派人处理完成任务
             // p.s. 被委托的流程需要先 resolved 这个任务再提交。
             // 所以在 complete 之前需要先 resolved

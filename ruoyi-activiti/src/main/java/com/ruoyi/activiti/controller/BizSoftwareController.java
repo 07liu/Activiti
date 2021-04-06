@@ -40,7 +40,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/software")
 public class BizSoftwareController extends BaseController {
-    private String prefix = "software" ;
+    private String prefix = "software";
 
     @Autowired
     private IBizSoftwareService bizSoftwareService;
@@ -55,8 +55,8 @@ public class BizSoftwareController extends BaseController {
     //    @RequiresPermissions("activiti:software:view")
     @GetMapping()
     public String software(ModelMap mmap) {
-        mmap.put("currentUser" , ShiroUtils.getSysUser());
-        return prefix + "/software" ;
+        mmap.put("currentUser", ShiroUtils.getSysUser());
+        return prefix + "/software";
     }
 
     /**
@@ -94,14 +94,14 @@ public class BizSoftwareController extends BaseController {
      */
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add" ;
+        return prefix + "/add";
     }
 
     /**
      * 新增保存软件/网络申请
      */
 //    @RequiresPermissions("activiti:software:add")
-    @Log(title = "软件/网络申请" , businessType = BusinessType.INSERT)
+    @Log(title = "软件/网络申请", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(BizSoftwareVo bizSoftware) {
@@ -121,15 +121,15 @@ public class BizSoftwareController extends BaseController {
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         BizSoftware bizSoftware = bizSoftwareService.selectBizSoftwareById(id);
-        mmap.put("bizSoftware" , bizSoftware);
-        return prefix + "/edit" ;
+        mmap.put("bizSoftware", bizSoftware);
+        return prefix + "/edit";
     }
 
     /**
      * 修改保存软件/网络申请
      */
 //    @RequiresPermissions("activiti:software:edit")
-    @Log(title = "软件/网络申请" , businessType = BusinessType.UPDATE)
+    @Log(title = "软件/网络申请", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(BizSoftwareVo bizSoftware) {
@@ -142,7 +142,7 @@ public class BizSoftwareController extends BaseController {
      * 删除软件/网络申请
      */
 //    @RequiresPermissions("activiti:software:remove")
-    @Log(title = "软件/网络申请" , businessType = BusinessType.DELETE)
+    @Log(title = "软件/网络申请", businessType = BusinessType.DELETE)
     @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
@@ -153,20 +153,20 @@ public class BizSoftwareController extends BaseController {
     /**
      * 提交申请
      */
-    @Log(title = "请假业务" , businessType = BusinessType.UPDATE)
+    @Log(title = "请假业务", businessType = BusinessType.UPDATE)
     @PostMapping("/submitApply")
     @ResponseBody
     public AjaxResult submitApply(Long id) {
         BizSoftwareVo bizSoftware = bizSoftwareService.selectBizSoftwareById(id);
         String applyUserId = ShiroUtils.getLoginName();
-        bizSoftwareService.submitApply(bizSoftware, applyUserId, "software" , new HashMap<>());
+        bizSoftwareService.submitApply(bizSoftware, applyUserId, "software", new HashMap<>());
         return success();
     }
 
 
     @GetMapping("/softwareTodo")
     public String todoView() {
-        return prefix + "/softwareTodo" ;
+        return prefix + "/softwareTodo";
     }
 
     /**
@@ -202,8 +202,8 @@ public class BizSoftwareController extends BaseController {
                 .singleResult();
 
         BizSoftwareVo bizSoftware = bizSoftwareService.selectBizSoftwareById(new Long(processInstance.getBusinessKey()));
-        mmap.put("bizSoftware" , bizSoftware);
-        mmap.put("taskId" , taskId);
+        mmap.put("bizSoftware", bizSoftware);
+        mmap.put("taskId", taskId);
         String verifyName = task.getTaskDefinitionKey().substring(0, 1).toUpperCase() + task.getTaskDefinitionKey().substring(1);
         return prefix + "/task" + verifyName;
     }
@@ -212,8 +212,8 @@ public class BizSoftwareController extends BaseController {
     public String showFormDialog(@PathVariable("instanceId") String instanceId, ModelMap mmap) {
         String businessKey = processService.findBusinessKeyByInstanceId(instanceId);
         BizSoftwareVo bizSoftware = bizSoftwareService.selectBizSoftwareById(new Long(businessKey));
-        mmap.put("bizSoftware" , bizSoftware);
-        return prefix + "/view" ;
+        mmap.put("bizSoftware", bizSoftware);
+        return prefix + "/view";
     }
 
     /**
@@ -221,15 +221,16 @@ public class BizSoftwareController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/complete/{taskId}" , method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/complete/{taskId}", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public AjaxResult complete(@PathVariable("taskId") String taskId, @RequestParam(value = "saveEntity" , required = false) String saveEntity,
+    public AjaxResult complete(@PathVariable("taskId") String taskId, @RequestParam(value = "saveEntity", required = false) String saveEntity,
                                @ModelAttribute("preloadSoft") BizSoftwareVo bizSoftware, HttpServletRequest request) {
-        boolean saveEntityBoolean = BooleanUtils.toBoolean(saveEntity);
-        processService.complete(taskId, bizSoftware.getInstanceId(), bizSoftware.getProcessType(), bizSoftware.getReason(), "software" , new HashMap<String, Object>(), request);
-        if (saveEntityBoolean) {
-            bizSoftwareService.updateBizSoftware(bizSoftware);
-        }
+//        boolean saveEntityBoolean = BooleanUtils.toBoolean(saveEntity);
+        processService.complete(taskId, bizSoftware.getInstanceId(), bizSoftware.getProcessType(),
+                bizSoftware.getReason(), "software", new HashMap<String, Object>(), request);
+//        if (saveEntityBoolean) {
+//            bizSoftwareService.updateBizSoftware(bizSoftware);
+//        }
         return success("任务已完成");
     }
 
@@ -251,6 +252,7 @@ public class BizSoftwareController extends BaseController {
 
     /**
      * 我的已办列表
+     *
      * @param bizSoftware
      * @return
      */
