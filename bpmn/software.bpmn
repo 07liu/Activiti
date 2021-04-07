@@ -9,9 +9,9 @@
     <userTask activiti:candidateGroups="hr" activiti:exclusive="true" id="hrVerify" name="人事审批"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="exclusivegateway6" name="Exclusive Gateway"/>
     <userTask activiti:assignee="${applyUserId}" activiti:exclusive="true" id="reportBack" name="本人确认">
-      <extensionElements>
+      <!--<extensionElements>
         <activiti:taskListener delegateExpression="${reportBackEndProcessor}" event="complete"/>
-      </extensionElements>
+      </extensionElements>-->
     </userTask>
     <endEvent id="endevent1" name="End"/>
     <exclusiveGateway gatewayDirection="Unspecified" id="exclusivegateway7" name="Exclusive Gateway"/>

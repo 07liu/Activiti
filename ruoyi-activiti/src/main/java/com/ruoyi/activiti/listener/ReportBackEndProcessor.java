@@ -30,15 +30,13 @@ public class ReportBackEndProcessor implements TaskListener {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-//    IBizLeaveService bizLeaveService;
-    IBizSoftwareService bizSoftwareService;
+    IBizLeaveService bizLeaveService;
+//    IBizSoftwareService bizSoftwareService;
 
-    /*
+    /**
      * (non-Javadoc)
      *
-     * @see
-     * org.activiti.engine.delegate.TaskListener#notify(org.activiti.engine.delegate
-     * .DelegateTask)
+     * @see org.activiti.engine.delegate.TaskListener#notify(org.activiti.engine.delegate.DelegateTask)
      */
     public void notify(DelegateTask delegateTask) {
 
@@ -49,12 +47,12 @@ public class ReportBackEndProcessor implements TaskListener {
 //
 //        System.out.println(bizSoftware.toString());
 //
-////        BizLeaveVo leave = bizLeaveService.selectBizLeaveById(new Long(delegateTask.getExecution().getProcessInstanceBusinessKey()));
-////        Object realityStartime = delegateTask.getVariable("realityStartTime");
-//        leave.setRealityStartTime((Date) realityStartTime);
-//        Object realityEndTime = delegateTask.getVariable("realityEndTime");
-//        leave.setRealityEndTime((Date) realityEndTime);
-//        bizLeaveService.updateBizLeave(leave);
+        BizLeaveVo leave = bizLeaveService.selectBizLeaveById(new Long(delegateTask.getExecution().getProcessInstanceBusinessKey()));
+        Object realityStartTime = delegateTask.getVariable("realityStartTime");
+        leave.setRealityStartTime((Date) realityStartTime);
+        Object realityEndTime = delegateTask.getVariable("realityEndTime");
+        leave.setRealityEndTime((Date) realityEndTime);
+        bizLeaveService.updateBizLeave(leave);
 
 //        delegateTask.setVariable("applyUserId","ame");
     }
